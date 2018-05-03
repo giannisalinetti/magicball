@@ -1,0 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: appdb
+spec:
+  selector:
+    app: appdb
+  ports:
+    - name: mysql
+      protocol: TCP
+      port: 3306

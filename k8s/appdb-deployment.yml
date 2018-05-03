@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: appdb
+  labels:
+    app: appdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: appdb
+  template:
+    metadata:
+      labels:
+        app: appdb
+    spec:
+      containers:
+      - env:
+        - name: MYSQL_USER
+          value: testuser
+        - name: MYSQL_PASSWORD
+          value: mypa55
+        - name: MYSQL_ROOT_PASSWORD
+          value: r00tpa55
+        - name: MYSQL_DATABASE
+          value: magicball
+        image: docker.io/mariadb:latest
+        imagePullPolicy: Always
+        name: appdb
+        ports:
+        - containerPort: 3306
+          protocol: TCP
+      restartPolicy: Always
