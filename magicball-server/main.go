@@ -31,7 +31,10 @@ func randomInt(min, max int) int {
 	return rand.Intn(max-min) + min
 }
 
-func handler(w http.ResponseWriter, r *http.Request) {
+func main() {
+
+	listenPort := flag.String("p", "8080", "Default listening port")
+	flag.Parse()
 
 	myConn := &dbConnection{
 		os.Getenv("APPDB_USER"),
@@ -49,29 +52,26 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer db.Close()
 
-	var answer string
-	var count int
-
-	err = db.QueryRow("SELECT COUNT(*) FROM answers").Scan(&count)
-	randomId := randomInt(1, count)
-
-	err = db.QueryRow("SELECT sentence FROM answers WHERE id = ?", randomId).Scan(&answer)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	fullResponse := fmt.Sprintf("Magic 8 Ball said: %s.\n", answer)
-	io.WriteString(w, fullResponse)
-}
-
-func main() {
-	listenPort := flag.String("p", "8080", "Default listening port")
-	flag.Parse()
-
 	defaultSocket := fmt.Sprintf("%s:%s", os.Getenv("POD_IP"), *listenPort)
 
 	rand.Seed(time.Now().UnixNano())
 
-	http.HandleFunc("/", handler)
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+
+		var answer string
+		var count int
+
+		err = db.QueryRow("SELECT COUNT(*) FROM answers").Scan(&count)
+		randomId := randomInt(1, count)
+
+		err = db.QueryRow("SELECT sentence FROM answers WHERE id = ?", randomId).Scan(&answer)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fullResponse := fmt.Sprintf("Magic 8 Ball said: %s.\n", answer)
+		io.WriteString(w, fullResponse)
+	})
+
 	log.Fatal(http.ListenAndServe(defaultSocket, nil))
 }
