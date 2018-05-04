@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NAMESPACE=magicball
+NAMESPACE=magic8
 APP_SVC=magicball
 
 APP_URL=$(minikube service $APP_SVC -n $NAMESPACE --url)

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-NAMESPACE=magicball
+NAMESPACE=magic8
 DB_NAME=appdb
 APP_NAME=magicball
 DB_DEPLOYMENT_CFG=appdb-deployment.yml
