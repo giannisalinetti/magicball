@@ -9,6 +9,8 @@ A special kind of containers in the Pod are the **Init container**, whose only p
 execute init related tasks and then exit before the execution of the main container(s).
 More than one init container can me executed in the same Pod.
 
+(https://blog.openshift.com/wp-content/uploads/loap.png)
+
 Also, check out this article on the OpenShift Blog: https://blog.openshift.com/kubernetes-pods-life/
 
 ## Build
