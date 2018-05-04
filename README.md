@@ -35,8 +35,8 @@ connection parameters are strictly bound to Kubernetes service environment varia
 the *myConn* struct instance using fixed strings, flags or different environment variables.
 
 Images for both magicball-init and magicball-server are already available: 
-- docker.io/gbsal/magicball-init
-- docker.io/gbsal/magicball-server
+- *docker.io/gbsal/magicball-init*
+- *docker.io/gbsal/magicball-server*
 
 If you need to rebuild you own use the **docker build** command:
 
