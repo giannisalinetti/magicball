@@ -11,7 +11,7 @@ More than one init container can me executed in the same Pod.
 
 ![](https://blog.openshift.com/wp-content/uploads/loap.png)
 
-Also, check out this article on the OpenShift Blog: https://blog.openshift.com/kubernetes-pods-life/
+Image from the OpenShift Blog article : [Kubernetes: A Pod's Life](https://blog.openshift.com/kubernetes-pods-life/)
 
 ## Build
 
@@ -125,4 +125,4 @@ Magic 8 Ball said: Most likely.
 
 ## Author
 
-Gianni Salinetti
+Gianni Salinetti (gbsalinetti@gmail.com)
