@@ -28,7 +28,6 @@ type dbConnection struct {
 }
 
 func randomInt(min, max int) int {
-	rand.Seed(time.Now().Unix())
 	return rand.Intn(max-min) + min
 }
 
@@ -70,6 +69,8 @@ func main() {
 	flag.Parse()
 
 	defaultSocket := fmt.Sprintf("%s:%s", os.Getenv("POD_IP"), *listenPort)
+
+	rand.Seed(time.Now().UnixNano())
 
 	http.HandleFunc("/", handler)
 	log.Fatal(http.ListenAndServe(defaultSocket, nil))
