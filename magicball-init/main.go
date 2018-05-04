@@ -73,7 +73,7 @@ func main() {
 	_, err = db.Exec(createTableStatement)
 	if err != nil {
 		log.Print("Table already exists, exiting.")
-		return // If the table exists, we're done
+		os.Exit(0) // If the table exists, we're done
 	}
 
 	// Insert rows, this need more checks
@@ -87,4 +87,6 @@ func main() {
 			log.Printf("Last insert id: %v, Rows affected: %v", id, rows)
 		}
 	}
+
+	log.Print("Database initialization completed.")
 }
