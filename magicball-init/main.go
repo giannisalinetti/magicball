@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -72,8 +73,16 @@ func main() {
 	// Create the table
 	_, err = db.Exec(createTableStatement)
 	if err != nil {
-		log.Print("Table already exists, exiting.")
-		os.Exit(0) // If the table exists, we're done
+		errMessage := err.Error()
+		tableExistsCode := "1050"
+		re := regexp.MustCompile(tableExistsCode)
+		if re.FindString(errMessage) == tableExistsCode {
+			log.Print("Table already exists, exiting.")
+			os.Exit(0) // If the table exists, we're done
+		} else {
+			log.Print(err)
+			os.Exit(1)
+		}
 	}
 
 	// Insert rows, this need more checks
