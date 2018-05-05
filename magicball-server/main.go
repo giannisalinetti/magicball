@@ -37,6 +37,9 @@ func getSentence(db *sql.DB) (string, error) {
 	var count int
 
 	err := db.QueryRow("SELECT COUNT(*) FROM answers").Scan(&count)
+	if err != nil {
+		return "", err
+	}
 	randomId := randomInt(1, count)
 
 	err = db.QueryRow("SELECT sentence FROM answers WHERE id = ?", randomId).Scan(&sentence)
@@ -58,7 +61,7 @@ func toJson(s string) (string, error) {
 
 func main() {
 
-	listenPort := flag.String("p", "8080", "Default listening port")
+	listenPort := flag.String("p", "8080", "Service listening port")
 	flag.Parse()
 
 	myConn := &dbConnection{
