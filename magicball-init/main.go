@@ -80,8 +80,7 @@ func main() {
 			log.Print("Table already exists, exiting.")
 			os.Exit(0) // If the table exists, we're done
 		} else {
-			log.Print(err)
-			os.Exit(1)
+			log.Fatal(err)
 		}
 	}
 
