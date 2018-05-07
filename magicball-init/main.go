@@ -89,7 +89,7 @@ func main() {
 		}
 	}
 
-	// Insert rows, this need more checks
+	// Insert rows
 	for _, statement := range insertDataStatements {
 		res, err := db.Exec(statement.sentence, statement.id)
 		if err != nil {
