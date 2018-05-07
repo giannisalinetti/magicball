@@ -14,26 +14,10 @@ const (
 	driver = "mysql"
 )
 
-var (
-	createTableStatement = "CREATE TABLE answers(id INT AUTO_INCREMENT, sentence VARCHAR(255), PRIMARY KEY(id));"
-	insertDataStatements = []string{
-		"INSERT INTO answers (sentence) VALUES ('As I see it, yes');",
-		"INSERT INTO answers (sentence) VALUES ('It is certain');",
-		"INSERT INTO answers (sentence) VALUES ('It is decidedly so');",
-		"INSERT INTO answers (sentence) VALUES ('Most likely');",
-		"INSERT INTO answers (sentence) VALUES ('Yes');",
-		"INSERT INTO answers (sentence) VALUES ('Ask again later');",
-		"INSERT INTO answers (sentence) VALUES ('Better not tell you now');",
-		"INSERT INTO answers (sentence) VALUES ('Cannot predict now');",
-		"INSERT INTO answers (sentence) VALUES ('Reply hazy, try again');",
-		"INSERT INTO answers (sentence) VALUES ('Concentrate and ask again');",
-		"INSERT INTO answers (sentence) VALUES ('Do not count on it');",
-		"INSERT INTO answers (sentence) VALUES ('My reply is no');",
-		"INSERT INTO answers (sentence) VALUES ('My sources say no');",
-		"INSERT INTO answers (sentence) VALUES ('Outlook not so good');",
-		"INSERT INTO answers (sentence) VALUES ('Very doubtful');",
-	}
-)
+type answers struct {
+	id       int
+	sentence string
+}
 
 type dbConnection struct {
 	user     string
@@ -43,6 +27,27 @@ type dbConnection struct {
 	port     string
 	database string
 }
+
+var (
+	createTableStatement = "CREATE TABLE answers(id INT AUTO_INCREMENT, sentence VARCHAR(255), PRIMARY KEY(id));"
+	insertDataStatements = []answers{
+		{1, "INSERT INTO answers (id, sentence) VALUES (?, 'As I see it, yes');"},
+		{2, "INSERT INTO answers (id, sentence) VALUES (?, 'It is certain');"},
+		{3, "INSERT INTO answers (id, sentence) VALUES (?, 'It is decidedly so');"},
+		{4, "INSERT INTO answers (id, sentence) VALUES (?, 'Most likely');"},
+		{5, "INSERT INTO answers (id, sentence) VALUES (?, 'Yes');"},
+		{6, "INSERT INTO answers (id, sentence) VALUES (?, 'Ask again later');"},
+		{7, "INSERT INTO answers (id, sentence) VALUES (?, 'Better not tell you now');"},
+		{8, "INSERT INTO answers (id, sentence) VALUES (?, 'Cannot predict now');"},
+		{9, "INSERT INTO answers (id, sentence) VALUES (?, 'Reply hazy, try again');"},
+		{10, "INSERT INTO answers (id, sentence) VALUES (?, 'Concentrate and ask again');"},
+		{11, "INSERT INTO answers (id, sentence) VALUES (?, 'Do not count on it');"},
+		{12, "INSERT INTO answers (id, sentence) VALUES (?, 'My reply is no');"},
+		{13, "INSERT INTO answers (id, sentence) VALUES (?, 'My sources say no');"},
+		{14, "INSERT INTO answers (id, sentence) VALUES (?, 'Outlook not so good');"},
+		{15, "INSERT INTO answers (id, sentence) VALUES (?, 'Very doubtful');"},
+	}
+)
 
 func main() {
 
@@ -86,13 +91,12 @@ func main() {
 
 	// Insert rows, this need more checks
 	for _, statement := range insertDataStatements {
-		res, err := db.Exec(statement)
+		res, err := db.Exec(statement.sentence, statement.id)
 		if err != nil {
 			log.Fatal(err)
 		} else {
-			id, _ := res.LastInsertId()
 			rows, _ := res.RowsAffected()
-			log.Printf("Last insert id: %v, Rows affected: %v", id, rows)
+			log.Printf("Last insert id: %v, Rows affected: %v", statement.id, rows)
 		}
 	}
 
